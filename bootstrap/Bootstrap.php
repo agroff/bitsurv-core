@@ -2,6 +2,7 @@
 
 namespace BitSurv\Bootstrap;
 
+use BitSurv\Engine\PluginSystem;
 use BitSurv\Engine\SurveyEngine;
 use BitSurv\Router;
 
@@ -17,7 +18,12 @@ class Bootstrap {
             echo "Admin Page";
         });
 
+        //load plugin system
+        $pluginSystem = new PluginSystem();
+
         //bootstrap plugins
+        $pluginSystem->loadAll();
+        $pluginSystem->bootstrapAll();
 
         //do routing
         $routed = $router->route();
@@ -26,6 +32,7 @@ class Bootstrap {
 
             $engine = new SurveyEngine();
             $url = $router->getLastUrl();
+            $engine->providePluginSystem($pluginSystem);
             $engine->render($url);
         }
     }

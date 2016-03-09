@@ -120,6 +120,18 @@ function dd(){
     die();
 }
 
+function dashesToCamelCase($string, $capitalizeFirstCharacter = true)
+{
+
+    $str = str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
+
+    if (!$capitalizeFirstCharacter) {
+        $str[0] = strtolower($str[0]);
+    }
+
+    return $str;
+}
+
 function surveyDbg($data){
     echo json_encode($data, JSON_PRETTY_PRINT);
 }

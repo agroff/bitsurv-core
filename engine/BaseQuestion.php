@@ -31,6 +31,16 @@ class BaseQuestion extends Render{
         echo "Whoops! We couldn't find a question with type: " . $this->d["type"];
     }
 
+    public function id()
+    {
+        return $this->d["id"];
+    }
+
+    public function label()
+    {
+        echo '<label class="'.$this->id().'" for="'.$this->id().'">'.$this->d["body"].'</label>';
+    }
+
     public function render(){
 
         echo "<div class=\"question\">";

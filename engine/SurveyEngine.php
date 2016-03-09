@@ -5,6 +5,9 @@ use BitSurv\Page;
 
 class SurveyEngine {
 
+    /** @var  PluginSystem */
+    private $pluginSystem;
+
     private function debug($compiled){
         echo "<br><br>";
         echo "<pre>";
@@ -32,6 +35,10 @@ class SurveyEngine {
         return $currentPage;
     }
 
+    public function providePluginSystem(PluginSystem $pluginSystem){
+        $this->pluginSystem = $pluginSystem;
+    }
+
     public function render($url){
 
         $surveyData = new SurveyData();
@@ -41,6 +48,7 @@ class SurveyEngine {
         $compiled = $surveyData->compile($data);
 
         $survey = new Survey($compiled);
+        $survey->providePluginSystem($this->pluginSystem);
 
         $currentPage = $survey->getCurrentPage();
 
@@ -49,7 +57,6 @@ class SurveyEngine {
         }
 
         $page = new Page($compiled["pages"][$currentPage], $currentPage);
-        dbg($currentPage);
 
         $page->title($compiled["title"]);
         $page->subtitle($compiled["sub-title"]);
