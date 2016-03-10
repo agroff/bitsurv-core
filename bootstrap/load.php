@@ -1,5 +1,5 @@
 <?php
-use BitSurv\Bootstrap\Bootstrap;
+use BitSurv\bootstrap\Bootstrap;
 
 //require global utils.
 require(__DIR__ . '/../utils.php');

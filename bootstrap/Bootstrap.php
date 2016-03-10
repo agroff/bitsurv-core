@@ -1,6 +1,6 @@
 <?php
 
-namespace BitSurv\Bootstrap;
+namespace BitSurv\bootstrap;
 
 use BitSurv\Engine\PluginSystem;
 use BitSurv\Engine\SurveyEngine;
