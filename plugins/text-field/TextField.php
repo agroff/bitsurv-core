@@ -12,6 +12,6 @@ class TextField extends BasePlugin{
         $pluginSystem->registerQuestionType('text-field', function($question){
             return new TextFieldQuestion($question);
         });
-        dbg('text field init');
+        //dbg('text field init');
     }
 }
