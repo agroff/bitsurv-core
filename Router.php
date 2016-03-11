@@ -21,7 +21,11 @@ class Router {
     }
 
     private function getUrlBase(){
-        $url = $_SERVER["HTTP_HOST"] . $_SERVER["PATH_INFO"];
+        $uri = '';
+        if(!empty($_SERVER["PATH_INFO"])){
+            $uri = $_SERVER["PATH_INFO"];
+        }
+        $url = $_SERVER["HTTP_HOST"] . $uri;
 
         $url = $this->ensureTrailingSlash($url);
 
