@@ -25,7 +25,7 @@ class SurveyData
         return preg_grep( '/^([^.])/', scandir( $path . '/' ) );
     }
 
-    public function findByListener( $url )
+    public function findByListener( $url, $skipHost = false )
     {
 
         $url = trim( $url, ' /' );
@@ -43,6 +43,13 @@ class SurveyData
             if ($url === $listening) {
                 return $survey;
             }
+        }
+
+        if($skipHost === false){
+            $segments = explode('/', $url);
+            array_shift($segments);
+            $newUrl = implode('/', $segments);
+            return $this->findByListener($newUrl, true);
         }
 
         return $this->fetchRaw( array_shift( $surveys ) );
