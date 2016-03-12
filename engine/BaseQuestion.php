@@ -36,9 +36,14 @@ class BaseQuestion extends Render{
         return $this->d["id"];
     }
 
+    public function type()
+    {
+        return $this->d["type"];
+    }
+
     public function label()
     {
-        echo '<label class="'.$this->id().'" for="'.$this->id().'">'.$this->d["body"].'</label>';
+        echo '<label class="'.$this->id().' '.$this->type().'" for="'.$this->id().'">'.$this->d["body"].'</label>';
     }
 
     public function render(){

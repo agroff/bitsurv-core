@@ -63,6 +63,11 @@ class Survey
 
 
         foreach($page["questions"] as $question){
+
+            if(empty($questions[$question]))
+            {
+                throw new \Exception("Could not find question with ID: `".$question."`");
+            }
             $questions[$question]["id"] = $question;
             $question = $this->questionFactory($questions[$question]);
 
