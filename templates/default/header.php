@@ -56,4 +56,5 @@
     <form method="post">
 
         <input type="hidden" value="<?php o($this->pageNumber) ?>" name="bts_page">
+        <input type="hidden" value="<?php o($this->responseId) ?>" name="bts_response_id">
 

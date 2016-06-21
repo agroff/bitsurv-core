@@ -1,0 +1,47 @@
+.image-radio-body {
+
+    .image-radio-container {
+        float : left;
+        width : 25%;
+        .radio-label {
+            cursor           : pointer;
+            padding          : 0;
+            width            : 100%;
+            height           : 80px;
+            background-color : #ccc;
+            border           : 1px solid #fff;
+            text-align       : center;
+            display          : flex;
+            justify-content  : center;
+            flex-direction   : column;
+            vertical-align   : middle;
+
+            input {
+                display : none;
+            }
+
+            &.selected {
+                background : #999;
+            }
+            &.unselected {
+                color      : #999;
+                background : #DDD;
+            }
+        }
+
+    }
+    .radio-image-image {
+        width : 100%;
+    }
+
+    .radio-image {
+        position : relative;
+
+        .image-radio-body {
+            position : absolute;
+            top      : 50%;
+            left     : 10%;
+            color    : #fff;
+        }
+    }
+}

@@ -31,14 +31,12 @@ class BaseQuestion extends Render{
         echo "Whoops! We couldn't find a question with type: " . $this->d["type"];
     }
 
-    public function id()
+    public function requireField($fieldName)
     {
-        return $this->d["id"];
-    }
-
-    public function type()
-    {
-        return $this->d["type"];
+        if(empty($this->d[$fieldName]))
+        {
+            throw new \Exception("`$fieldName` is a required attribute for ".$this->type()." questions");
+        }
     }
 
     public function label()
@@ -48,12 +46,12 @@ class BaseQuestion extends Render{
 
     public function render(){
 
-        echo "<div class=\"question\">";
+        echo '<div class="question" id="question-' . $this->id() . '" data-question-type="' . $this->type() . '">';
         $this->renderHeader();
         $this->renderSubHeader();
         $this->renderBody();
         $this->renderFooter();
-        echo "</div>";
+        echo '</div>';
     }
 
 }

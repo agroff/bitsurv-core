@@ -40,6 +40,7 @@ class SurveyEngine {
     }
 
     public function render($url){
+        $response = new Response();
 
         $surveyData = new SurveyData();
 
@@ -51,12 +52,22 @@ class SurveyEngine {
         $survey->providePluginSystem($this->pluginSystem);
 
         $currentPage = $survey->getCurrentPage();
+        $responseId = -1;
 
         if(count(post()) > 0){
+
+            $responseId = $response->save($compiled, post());
+
+            $this->pluginSystem->setResponseId($responseId);
+
             $currentPage = $this->adjustPageNumber($currentPage);
+
+            $currentPage = $this->pluginSystem->adjustPage($currentPage, $compiled);
         }
 
-        $page = new Page($compiled["pages"][$currentPage], $currentPage);
+        $page = new Page($compiled, $currentPage);
+
+        $page->setResponseId($responseId);
 
         $page->title($compiled["title"]);
         $page->subtitle($compiled["sub-title"]);

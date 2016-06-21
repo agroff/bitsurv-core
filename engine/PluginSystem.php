@@ -11,7 +11,10 @@ class PluginSystem
 {
 
     private $plugins = [ ];
+    private $hooks = [ ];
     private $questionTypes = [ ];
+
+    private $responseId = -1;
 
     private function getSystemPluginPath()
     {
@@ -60,6 +63,45 @@ class PluginSystem
 
     }
 
+    private function getHooks($hookName)
+    {
+        if(isset($this->hooks[$hookName])){
+            return $this->hooks[$hookName];
+        }
+
+        return [];
+    }
+
+    public function setResponseId($responseId)
+    {
+        $this->responseId = $responseId;
+    }
+
+    public function getResponseId()
+    {
+        return $this->responseId;
+    }
+
+    public function hook($hookName, $callback)
+    {
+        if(!isset($this->hooks[$hookName])){
+            $this->hooks[$hookName] = array();
+        }
+        $this->hooks[$hookName][] = $callback;
+    }
+
+    public function adjustPage($nextPage, $compiledSurvey)
+    {
+        $pageHooks = $this->getHooks('adjust-page');
+
+        $newNextPage = $nextPage;
+        foreach($pageHooks as $hook){
+            $newNextPage = $hook($newNextPage, $compiledSurvey);
+        }
+
+        return $newNextPage;
+    }
+
     public function registerQuestionType( $type, $callback )
     {
         $this->questionTypes[$type] = $callback;
@@ -67,11 +109,8 @@ class PluginSystem
 
     public function getNewQuestion($type, $question)
     {
-        //dd('test');
-        //dd($this->questionTypes);
         if(!isset($this->questionTypes[$type]))
         {
-            //dd("Couldn't find: $type");
             return false;
         }
         return $this->questionTypes[$type]($question);

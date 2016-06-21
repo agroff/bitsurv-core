@@ -14,7 +14,14 @@ class SurveyData
 
         $json = file_get_contents( $path );
 
-        $result = json_decode( $json, true );
+        $result = array(
+            "name" => explode(".", $survey)[0]
+        );
+
+        $result = array_merge($result, json_decode( $json, true ));
+
+
+        $result["name"] = explode(".", $survey)[0];
 
         return $result;
     }
@@ -56,6 +63,18 @@ class SurveyData
 
         //default case just returns the first survey it finds
         return $this->fetchRaw( array_shift( $surveys ) );
+    }
+
+    public function findAll()
+    {
+        $all = array();
+        $surveys = $this->listDir( Path::get( 'surveys' ) );
+        foreach($surveys as $survey){
+            $name = str_replace('.json', '', $survey);
+            $all[$name] = Path::get( 'surveys', '/'.$survey );
+        }
+
+        return $all;
     }
 
     public function findByName( $name )
@@ -133,12 +152,13 @@ class SurveyData
     public function compile( $data )
     {
 
+        $baseData = array();
         if ( ! empty( $data["extends"] )) {
             $baseData = $this->findByName( $data["extends"] );
-
-            unset( $data["extends"] );
-            $data = $this->mergeSurveys( $baseData, $data );
         }
+
+        unset( $data["extends"] );
+        $data = $this->mergeSurveys( $baseData, $data );
 
         return $data;
     }
